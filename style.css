@@ -1,0 +1,9 @@
+body {
+  font-family: monospace;
+  background: #ffffff;
+  color: #eee;
+}
+
+#app {
+  padding: 40px;
+}
