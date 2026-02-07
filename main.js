@@ -1,4 +1,4 @@
-let pageOneOn = false;
+let pageOneOn = true;
 
 const app = document.createElement("div");
 document.body.appendChild(app);
