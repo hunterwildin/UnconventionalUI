@@ -1,4 +1,6 @@
 let pageOneOn = true;
+let pageTwoOn = false;  
+let pageThreeOn = true;
 
 const app = document.createElement("div");
 document.body.appendChild(app);
@@ -15,6 +17,9 @@ app.style.fontFamily = "monospace";
 if (pageOneOn) {
     pageOne();
 
-} else {
+} else if (pageTwoOn) {
     pageTwo();
+
+} else if (pageThreeOn) {
+    pageThree();
 }

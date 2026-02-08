@@ -39,7 +39,7 @@ function pageTwo() {
   // ----- Play & Pause Buttons -----
   const playButton = document.createElement("button");
   const playIcon = document.createElement("img");
-  playIcon.src = "/Users/hunter/Documents/web proj/WEBSITE DEMO/DEMO2/icon assets/play.svg";
+  playIcon.src = "icon assets/play.svg";
   playIcon.style.width = "36px"; //Syd Changed
   playIcon.style.height = "54px"; //Syd Changed
   playButton.appendChild(playIcon);
@@ -59,7 +59,7 @@ function pageTwo() {
 
   const pauseButton = document.createElement("button");
   const pauseIcon = document.createElement("img");
-  pauseIcon.src = "/Users/hunter/Documents/web proj/WEBSITE DEMO/DEMO2/icon assets/pause.svg";
+  pauseIcon.src = "icon assets/pause.svg";
   pauseIcon.style.width = "36px"; //Syd Changed
   pauseIcon.style.height = "54px"; //Syd Changed
   pauseButton.appendChild(pauseIcon);
@@ -183,4 +183,26 @@ volumeSlider.style.accentColor = "#000000";
       }
     }, 10000);
   });
+
+  // ----- Continue Button to Page Three -----
+  const continueButton = document.createElement("button");
+  const buttonIcon = document.createElement("img");
+  buttonIcon.src = "icon assets/double_forward_arrow.svg";
+  buttonIcon.style.width = "24px";
+  buttonIcon.style.height = "24px";
+  continueButton.appendChild(buttonIcon);
+  
+  continueButton.style.padding = "10px 25px";
+  continueButton.style.marginTop = "30px";
+  continueButton.style.background = "#ffffff";
+  continueButton.style.border = "1px solid #000000";
+  continueButton.style.borderRadius = "4px";
+  continueButton.style.cursor = "pointer";
+  continueButton.style.opacity = "0.5";
+  
+  continueButton.addEventListener("mouseenter", () => continueButton.style.opacity = "1");
+  continueButton.addEventListener("mouseleave", () => continueButton.style.opacity = "0.5");
+  continueButton.addEventListener("click", () => pageThree());
+  
+  app.appendChild(continueButton);
 }
