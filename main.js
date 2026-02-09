@@ -1,6 +1,6 @@
-let pageOneOn = true;
-let pageTwoOn = false;  
-let pageThreeOn = true;
+let pageOneOn =true
+let pageTwoOn = true;  
+let pageThreeOn = false;
 
 const app = document.createElement("div");
 document.body.appendChild(app);
@@ -11,6 +11,10 @@ app.style.display = "flex";
 app.style.alignItems = "center";
 app.style.justifyContent = "center";
 app.style.fontFamily = "monospace";
+app.style.zIndex = '-1';
+
+
+
 
 
 //initial call to page one

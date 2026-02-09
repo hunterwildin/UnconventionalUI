@@ -17,10 +17,43 @@ function pageTwo() {
   app.appendChild(title);
 
 
+  const gridBg = document.createElement("div");
+app.appendChild(gridBg);
+
+gridBg.style.position = "absolute";
+gridBg.style.width = "100%";
+gridBg.style.height = "100%";
+gridBg.style.backgroundImage = "radial-gradient(circle, #ccc 1px, transparent 1px)";
+gridBg.style.backgroundSize = "20px 20px";
+gridBg.style.zIndex = "-1";
+gridBg.style.pointerEvents = "none";
+
+
   // ----- Audio Element -----
   const controls = document.createElement("audio"     );
   controls.style.display = "none";
   app.appendChild(controls);
+
+const audioContext = new AudioContext();
+
+const sourceNode = audioContext.createMediaElementSource(controls);
+
+const delay = audioContext.createDelay(5.0);
+const feedback = audioContext.createGain();
+
+delay.delayTime.value = 0.3;
+feedback.gain.value = 0.4;
+
+// feedback loop
+delay.connect(feedback);
+feedback.connect(delay);
+
+sourceNode.connect(delay);
+delay.connect(audioContext.destination);
+
+
+
+
 
   // ----- Voice Record Button -----
   const voiceRecord = document.createElement("button");
@@ -53,25 +86,36 @@ function pageTwo() {
   playButton.style.padding = "15px"; //Syd Changed
   playButton.addEventListener("mouseenter", () => playButton.style.opacity = "1");
   playButton.addEventListener("mouseleave", () => playButton.style.opacity = "0.5");
-  playButton.addEventListener("click", () => controls.play());
+playButton.addEventListener("click", () => {
+  audioContext.resume();
+
+  if (controls.paused) {
+    controls.play();
+  } else {
+    controls.pause();
+  }
+
+  playIcon.src = controls.paused ? "icon assets/play.svg" : "icon assets/pause.svg";
+});
 
 
 
-  const pauseButton = document.createElement("button");
-  const pauseIcon = document.createElement("img");
-  pauseIcon.src = "icon assets/pause.svg";
-  pauseIcon.style.width = "36px"; //Syd Changed
-  pauseIcon.style.height = "54px"; //Syd Changed
-  pauseButton.appendChild(pauseIcon);
-  pauseButton.style.opacity = "0.5";
-  pauseButton.style.background = "none";
-  pauseButton.style.borderRadius = "4px";
-  pauseButton.style.border = "1px solid #000";
-  pauseButton.style.cursor = "pointer";
-  pauseButton.style.padding = "15px"; //Syd Changed
-  pauseButton.addEventListener("mouseenter", () => pauseButton.style.opacity = "1");
-  pauseButton.addEventListener("mouseleave", () => pauseButton.style.opacity = "0.5");
-  pauseButton.addEventListener("click", () => controls.pause());
+    const pauseButton = document.createElement("button");
+    const pauseIcon = document.createElement("img");
+    pauseIcon.src = "icon assets/pause.svg";
+    pauseIcon.style.width = "36px"; //Syd Changed
+    pauseIcon.style.height = "54px"; //Syd Changed
+    // pauseButton.appendChild(pauseIcon);
+    pauseButton.style.opacity = "0.5";
+    pauseButton.style.background = "none";
+    pauseButton.style.borderRadius = "4px";
+    pauseButton.style.border = "1px solid #000";
+    pauseButton.style.cursor = "pointer";
+    pauseButton.style.padding = "15px"; //Syd Changed
+    pauseButton.addEventListener("mouseenter", () => pauseButton.style.opacity = "1");
+    pauseButton.addEventListener("mouseleave", () => pauseButton.style.opacity = "0.5");
+    pauseButton.style.display = "none"; // Hide the pause button since play/pause is toggled with one button
+  
 
   // ----- Progress Bar -----
   const barContainer = document.createElement("div");
@@ -114,11 +158,13 @@ function pageTwo() {
   volumeSlider.min = "0";
   volumeSlider.max = "1";
   volumeSlider.step = "0.01";
-  volumeSlider.value = "0.5";
+  volumeSlider.value = "1";
   volumeSlider.style.transform = "rotate(-90deg)";
   volumeSlider.style.width = "300px"; //Syd Changed // slider length
   volumeSlider.style.height = "12px"; //Syd Changed  // slider thickness
 volumeSlider.style.accentColor = "#000000";
+volumeSlider.style.cursor = "pointer";
+
 
 
   
@@ -185,24 +231,133 @@ volumeSlider.style.accentColor = "#000000";
   });
 
   // ----- Continue Button to Page Three -----
-  const continueButton = document.createElement("button");
-  const buttonIcon = document.createElement("img");
-  buttonIcon.src = "icon assets/double_forward_arrow.svg";
-  buttonIcon.style.width = "24px";
-  buttonIcon.style.height = "24px";
-  continueButton.appendChild(buttonIcon);
+  // const continueButton = document.createElement("button");
+  // const buttonIcon = document.createElement("img");
+  // buttonIcon.src = "icon assets/double_forward_arrow.svg";
+  // buttonIcon.style.width = "24px";
+  // buttonIcon.style.height = "24px";
+  // continueButton.appendChild(buttonIcon);
   
-  continueButton.style.padding = "10px 25px";
-  continueButton.style.marginTop = "30px";
-  continueButton.style.background = "#ffffff";
-  continueButton.style.border = "1px solid #000000";
-  continueButton.style.borderRadius = "4px";
-  continueButton.style.cursor = "pointer";
-  continueButton.style.opacity = "0.5";
+  // continueButton.style.padding = "10px 25px";
+  // continueButton.style.marginTop = "30px";
+  // continueButton.style.background = "#ffffff";
+  // continueButton.style.border = "1px solid #000000";
+  // continueButton.style.borderRadius = "4px";
+  // continueButton.style.cursor = "pointer";
+  // continueButton.style.opacity = "0.5";
   
-  continueButton.addEventListener("mouseenter", () => continueButton.style.opacity = "1");
-  continueButton.addEventListener("mouseleave", () => continueButton.style.opacity = "0.5");
-  continueButton.addEventListener("click", () => pageThree());
+  // continueButton.addEventListener("mouseenter", () => continueButton.style.opacity = "1");
+  // continueButton.addEventListener("mouseleave", () => continueButton.style.opacity = "0.5");
+  // continueButton.addEventListener("click", () => pageThree());
   
-  app.appendChild(continueButton);
+  // app.appendChild(continueButton);
+
+
+const speedSlider = document.createElement("input");
+speedSlider.type = "range";
+speedSlider.min = "0";
+speedSlider.max = "100";
+speedSlider.value = "50";
+speedSlider.style.width = "300px"; 
+speedSlider.style.height = "12px";     
+speedSlider.style.accentColor = "#000000";
+speedSlider.style.cursor = "pointer";
+speedSlider.style.marginTop = "30px";
+
+speedSlider.addEventListener("input", () => {
+  controls.playbackRate = Number(speedSlider.value) / 50;
+});
+
+speedSlider.style.position = "absolute";
+speedSlider.style.left = Math.random() * 80 + "%";
+speedSlider.style.top = Math.random() * 80 + "%";
+speedSlider.style.transform = "rotate(" + (Math.random() * 360) + "deg)";
+
+
+app.appendChild(speedSlider);
+
+
+const delaySlider = document.createElement("input");
+delaySlider.type = "range";
+delaySlider.min = "0";
+delaySlider.max = "100";
+delaySlider.value = "0";
+delaySlider.style.width = "300px"; 
+delaySlider.style.height = "12px";     
+delaySlider.style.accentColor = "#000000";
+delaySlider.style.cursor = "pointer";
+delaySlider.style.marginTop = "30px";
+
+delaySlider.style.position = "absolute";
+delaySlider.style.left = Math.random() * 80 + "%";
+delaySlider.style.top = Math.random() * 80 + "%";
+delaySlider.style.transform = "rotate(" + (Math.random() * 360) + "deg)";
+
+app.appendChild(delaySlider);
+
+
+
+delay.delayTime.value = 0.3;
+feedback.gain.value = 0.4;
+
+delaySlider.addEventListener("input", () => {
+  feedback.gain.value = delaySlider.value / 100;
+  
+});
+
+/* Move the delay slider to the top of the page */
+
+
+
+const lfoSlider = document.createElement("input");
+lfoSlider.type = "range";
+lfoSlider.min = "0";
+lfoSlider.max = "100";
+lfoSlider.value = "50";
+lfoSlider.style.width = "300px"; 
+lfoSlider.style.height = "12px";     
+lfoSlider.style.accentColor = "#000000";
+lfoSlider.style.cursor = "pointer";
+lfoSlider.style.marginTop = "30px";
+
+lfoSlider.style.position = "absolute";
+lfoSlider.style.left = Math.random() * 80 + "%";
+lfoSlider.style.top = Math.random() * 80 + "%";
+lfoSlider.style.transform = "rotate(" + (Math.random() * 360) + "deg)";
+
+app.appendChild(lfoSlider);
+
+
+  const lfo = audioContext.createOscillator();
+const lfoGain = audioContext.createGain();
+
+lfo.frequency.value = 5;
+lfoGain.gain.value = 1;
+
+const gainNode = audioContext.createGain();
+
+sourceNode.disconnect();
+sourceNode.connect(gainNode);
+gainNode.connect(delay);
+
+lfo.connect(lfoGain);
+lfoGain.connect(gainNode.gain);
+
+lfo.start();
+
+lfoSlider.addEventListener("input", () => {
+  lfo.frequency.value = lfoSlider.value / 10;
+
+  
+});
+
+
+
 }
+
+
+
+
+
+
+

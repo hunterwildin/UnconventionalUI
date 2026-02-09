@@ -45,6 +45,18 @@ input.readOnly = true;
 input.placeholder = "Name";
 
 
+const gridBg = document.createElement("div");
+app.appendChild(gridBg);
+
+gridBg.style.position = "absolute";
+gridBg.style.width = "100%";
+gridBg.style.height = "100%";
+gridBg.style.backgroundImage = "radial-gradient(circle, #ccc 1px, transparent 1px)";
+gridBg.style.backgroundSize = "20px 20px";
+gridBg.style.zIndex = "-1";
+gridBg.style.pointerEvents = "none";
+
+
 
 
 
